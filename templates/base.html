@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10283d"><title>{% block title %}MediPriority AI | Care starts with clarity{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><header class="topbar"><a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">✚</span><span>MediPriority <b>AI</b><small>CARE INTELLIGENCE</small></span></a>
+<nav><a href="{{ url_for('index') }}">Overview</a><a href="{{ url_for('assess') }}">New assessment</a><a href="{{ url_for('records') }}">Patient records</a><a href="{{ url_for('about') }}">Platform</a></nav>
+<a class="nav-cta" href="{{ url_for('assess') }}">＋ Assess patient</a></header>
+<main class="container">{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}{% block content %}{% endblock %}</main>
+<footer><strong>MediPriority <b>AI</b></strong><p>Helping teams organize patient information with greater clarity.</p><p class="footer-safety">This tool provides informational guidance only and is not a diagnosis. In a medical emergency, contact local emergency services.</p></footer></body></html>

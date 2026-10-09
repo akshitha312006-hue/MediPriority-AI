@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}New Assessment | MediPriority AI{% endblock %}
+{% block content %}
+<div class="page-intro"><span class="eyebrow">PATIENT INTAKE</span><h1>New assessment</h1><p>Enter the information below. Required fields are marked with an asterisk.</p></div>
+<div class="notice urgent"><strong>Emergency warning</strong><p>If the person has severe chest pain, difficulty breathing, signs of stroke, a seizure, unconsciousness, or severe bleeding, contact emergency services now. Do not wait to complete this form.</p></div>
+<form method="post" class="form-card">
+  <h2>Patient details</h2>
+  <div class="form-grid">
+    <label>Patient name *<input name="patient_name" required maxlength="100" placeholder="Enter name"></label>
+    <label>Age *<input type="number" name="age" min="0" max="120" required placeholder="Age in years"></label>
+    <label class="full">Contact (optional)<input name="contact" maxlength="120" placeholder="Phone or email (optional)"></label>
+  </div>
+  <hr>
+  <h2>Symptoms and urgency</h2>
+  <label>Describe symptoms *<textarea name="symptoms" required rows="4" maxlength="2000" placeholder="Describe what the person is experiencing..."></textarea></label>
+  <div class="form-grid">
+    <label>How long? *<select name="duration" required><option value="">Choose duration</option><option>Less than 24 hours</option><option>1–3 days</option><option>4–7 days</option><option>More than 1 week</option></select></label>
+    <label>Reported severity: <output id="severity-value">3</output>/10<input id="severity" type="range" name="severity" min="1" max="10" value="3" oninput="document.getElementById('severity-value').value=this.value"><small>1 = mild · 10 = worst reported</small></label>
+  </div>
+  <fieldset><legend>Any emergency warning signs? (select all that apply)</legend>
+    <label class="check"><input type="checkbox" name="red_flags" value="chest pain"> Chest pain</label>
+    <label class="check"><input type="checkbox" name="red_flags" value="difficulty breathing"> Difficulty breathing</label>
+    <label class="check"><input type="checkbox" name="red_flags" value="unconsciousness/fainting"> Unconsciousness or fainting</label>
+    <label class="check"><input type="checkbox" name="red_flags" value="stroke signs"> Face drooping, sudden weakness, or speech trouble</label>
+    <label class="check"><input type="checkbox" name="red_flags" value="severe bleeding"> Severe bleeding</label>
+    <label class="check"><input type="checkbox" name="red_flags" value="seizure"> Seizure</label>
+    <label class="check"><input type="checkbox" name="red_flags" value="blue lips"> Blue lips</label>
+  </fieldset>
+  <label class="consent"><input type="checkbox" required> I understand this is a demonstration tool and not a diagnosis or substitute for professional care.</label>
+  <div class="actions"><button class="btn primary" type="submit">Assess and save record</button><a class="btn secondary" href="{{ url_for('index') }}">Cancel</a></div>
+</form>
+<script>
+const slider = document.getElementById('severity');
+document.getElementById('severity-value').value = slider.value;
+</script>
+{% endblock %}

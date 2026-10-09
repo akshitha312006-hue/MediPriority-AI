@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Records | MediPriority AI{% endblock %}
+{% block content %}
+<div class="page-intro"><span class="eyebrow">LOCAL DATABASE</span><h1>Assessment records</h1><p>Search saved records, filter by priority, and update their workflow status.</p></div>
+<form class="filters" method="get"><input name="q" value="{{ q }}" placeholder="Search patient or symptom"><select name="priority"><option value="">All priorities</option>{% for p in ['Emergency','High','Moderate','Routine'] %}<option value="{{ p }}" {% if priority==p %}selected{% endif %}>{{ p }}</option>{% endfor %}</select><button class="btn primary" type="submit">Filter</button><a class="btn secondary" href="{{ url_for('records') }}">Reset</a></form>
+{% if rows %}
+<div class="table-wrap"><table><thead><tr><th>ID / Patient</th><th>Symptoms</th><th>Priority</th><th>Created</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+{% for r in rows %}<tr><td><strong>#{{ r.id }} · {{ r.patient_name }}</strong><small>Age {{ r.age }}</small></td><td>{{ r.symptoms|truncate(70) }}</td><td><span class="priority {{ r.priority|lower }}">{{ r.priority }}</span></td><td>{{ r.created_at }}</td><td><form class="inline-form" method="post" action="{{ url_for('update_status', record_id=r.id) }}"><select name="status">{% for s in ['New','Reviewed','Follow-up'] %}<option {% if r.status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select><button class="small-btn" type="submit">Save</button></form></td><td><form method="post" action="{{ url_for('delete_record', record_id=r.id) }}" onsubmit="return confirm('Delete this record permanently?')"><button class="small-btn delete" type="submit">Delete</button></form></td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<div class="empty"><div class="empty-icon">⌕</div><h3>No matching records</h3><p>Try another search or create a new assessment.</p><a class="btn primary" href="{{ url_for('assess') }}">New assessment</a></div>{% endif %}
+{% endblock %}

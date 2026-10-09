@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Assessment Result | MediPriority AI{% endblock %}
+{% block content %}
+<div class="page-intro"><span class="eyebrow">ASSESSMENT SAVED</span><h1>Priority summary</h1><p>Record #{{ record.id }} · {{ record.created_at }}</p></div>
+<div class="result-card">
+  <div class="result-top"><div><span class="eyebrow">SUGGESTED CATEGORY</span><h2>{{ record.patient_name }}</h2><p>{{ record.age }} years old · Severity {{ record.severity }}/10</p></div><span class="priority big {{ record.priority|lower }}">{{ record.priority }}</span></div>
+  <div class="result-body"><h3>Guidance</h3><p>{{ record.recommendation }}</p><h3>Symptoms provided</h3><p>{{ record.symptoms }}</p>{% if record.red_flags %}<h3>Selected warning signs</h3><p>{{ record.red_flags.replace(',', ', ') }}</p>{% endif %}</div>
+  <div class="notice urgent"><strong>This is not a diagnosis.</strong><p>The category comes from simple demo rules and may be wrong. A qualified medical professional must assess the person. If you are concerned or symptoms worsen, seek medical care.</p></div>
+  <div class="actions"><a class="btn primary" href="{{ url_for('assess') }}">＋ New assessment</a><a class="btn secondary" href="{{ url_for('records') }}">View all records</a></div>
+</div>
+{% endblock %}
